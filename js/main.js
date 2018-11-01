@@ -8,7 +8,7 @@ var currentLevel;
 var elements = [];
 
 const tileSet = new Image();
-tileSet.src = "../images/tileSet.png";
+tileSet.src = "../images/0x72_DungeonTilesetII_v1.1.png";
 
 function update(){
 	for(let i in elements){
@@ -35,10 +35,13 @@ var Wall = function(){
 	this.vx = 0;
 	this.vy = 0;
 	
+	this.w = 47;
+	this.h = 19;
+	
 	this.states = {
 		full: {
 			texture:
-				[0, 0, 16, 16]
+				[17, 13, 64, 32]
 		}
 	};
 	this.state = args[3] || this.states.full;
