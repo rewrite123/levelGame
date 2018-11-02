@@ -1,0 +1,28 @@
+@font-face {
+	font-family: 'pixelFont';
+	src: url('fonts/FreePixel.ttf') format('truetype');
+}
+
+body{
+	font-family: pixelFont;
+	color: rgb(151, 151, 151);
+	background-color: rgb(32, 32, 32);
+}
+
+canvas{
+	padding-left: 0;
+	padding-right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+.mainContainer{
+	width: 80%;
+	min-width: 640px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+}
