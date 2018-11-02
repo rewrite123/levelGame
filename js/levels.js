@@ -32,18 +32,20 @@ var TestLevel = function(){
 			el.push(temp);
 		}
 		for(let i = 0; i < canvas.width/96; i++){
-			var temp = new Wall(96*i, canvas.height-32);
+			var temp = new Wall(96*i, canvas.height-32-10);
 			el.push(temp);
 		}
 		
-		for(let i = 0; i <= canvas.height/72 + 5; i++){
-			var temp = new Vertical(0, 40*i);
+		for(let k = 0; k <= 9; k++){
+			var temp = new Vertical(0, 10+40*k);
 			el.push(temp);
 		}
-		for(let i = 0; i <= canvas.height/72 + 5; i++){
-			var temp = new Vertical(canvas.width-18, 40*i);
+		el.push(new Vertical(0, canvas.height-72));
+		for(let k = 0; k <= 9; k++){
+			var temp = new Vertical(canvas.width-18, 10+40*k);
 			el.push(temp);
 		}
+		el.push(new Vertical(canvas.width-18, canvas.height-72));
 		
 		el.push(new Golem(400, 100));
 		el.push(new Ogre(400, 200));
