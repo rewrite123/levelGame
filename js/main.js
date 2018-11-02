@@ -496,7 +496,7 @@ var Golem = function(){
 	this.vx = 0;
 	this.vy = 0;
 	
-	this.w = 36;
+	this.w = 40;
 	this.h = 54;
 	
 	this.states = {
@@ -504,8 +504,8 @@ var Golem = function(){
 			texture:
 				[
 					1,
-					[[24, 278, 18, 27]],
-					[[56, 278, 18, 27]]
+					[[22, 278, 20, 27]],
+					[[54, 278, 20, 27]]
 				]
 		}
 	};

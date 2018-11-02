@@ -5,6 +5,17 @@
 	<meta charset="UTF-8"/>
 	<title>Pokemon but for SW</title>
 	<style>
+		@font-face {
+			font-family: 'pixelFont';
+			src: url('../fonts/FreePixel.ttf') format('truetype');
+		}
+		
+		body{
+			font-family: pixelFont;
+			color: rgb(151, 151, 151);
+			background-color: rgb(32, 32, 32);
+		}
+		
 		canvas{
 			padding-left: 0;
 			padding-right: 0;
@@ -12,13 +23,34 @@
 			margin-right: auto;
 			display: block;
 		}
+		
+		.mainContainer{
+			width: 80%;
+			min-width: 640px;
+			margin-left: auto;
+			margin-right: auto;
+			text-align: center;
+			font-size: 18px;
+			font-weight: bold;
+		}
+		
 	</style>
 </head>
 
 <body>
-	<canvas id="canvas" width="640" height="480"></canvas>
+	
+	<div class="mainContainer">
+		
+		<h1>DUNGEON TALES (WIP)</h1>
+		
+		<canvas id="canvas" width="640" height="480"></canvas>
+		
+		<h3>Welcome To Dungeon Tales</h3>
+		<p>Dungeon Tales is a simple game wherein you play the role of a knight who is trying desperately to leave a dungeon he got lost in. The controls are simple (WASD), as is the game. You beat enemies by running into them. If you are a higher level than they are, they die, and you gain their level. That's it for now. Have fun!</p>
+	</div>
 	<script src="../js/main.js"></script>
 	<script src="../js/levels.js"></script>
+	
 </body>
 
 </html>
