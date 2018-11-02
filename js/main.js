@@ -65,8 +65,9 @@ var Wall = function(){
 	
 	this.render = function(){
 		/* Have fun with this one! */
-		for(let i = 0; i < this.state.texture[this.state.texture[0]].length; i++){
-			g.drawImage(tileSet, this.state.texture[this.state.texture[0]][i][0], this.state.texture[this.state.texture[0]][i][1], this.state.texture[this.state.texture[0]][i][2], this.state.texture[this.state.texture[0]][i][3], this.x, this.y, this.w, this.h);
+		var drawing = this.state.texture[this.state.texture[0]];
+		for(let i = 0; i < drawing.length; i++){
+			g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, this.w, this.h);
 		}
 	}
 	
@@ -182,8 +183,9 @@ var floorTile = function(){
 	
 	this.render = function(){
 		/* Have fun with this one! */
-		for(let i = 0; i < this.state.texture[this.state.texture[0]].length; i++){
-			g.drawImage(tileSet, this.state.texture[this.state.texture[0]][i][0], this.state.texture[this.state.texture[0]][i][1], this.state.texture[this.state.texture[0]][i][2], this.state.texture[this.state.texture[0]][i][3], this.x, this.y, this.w, this.h);
+		var drawing = this.state.texture[this.state.texture[0]];
+		for(let i = 0; i < drawing.length; i++){
+			g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, this.w, this.h);
 		}
 	}
 	
@@ -216,6 +218,8 @@ var Player = function(){
 	
 	this.id = "player";
 	
+	this.lvl = 20;
+	
 	this.x = args[0] || 0;
 	this.y = args[1] || 0;
 	this.speed = args[2] || 1;
@@ -240,10 +244,13 @@ var Player = function(){
 	this.update = function(){
 		this.handleKeys();
 		
+		this.handleInteraction(this.collision());
+		
 		this.x += this.vx;
 		this.y += this.vy;
 		this.vy = this.vy*0.9;
 		this.vx = this.vx*0.9;
+		
 	}
 	
 	this.render = function(){
@@ -252,6 +259,8 @@ var Player = function(){
 		for(let i = 0; i < drawing.length; i++){
 			g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, this.w, this.h);
 		}
+		g.fillStyle = "white";
+		g.fillText(this.lvl, this.x, this.y - 5);
 	}
 	
 	this.nextTexture = function(){
@@ -286,13 +295,243 @@ var Player = function(){
 		}
 	}
 	
+	this.handleInteraction  = function(){
+		var args = Array.prototype.slice.call(arguments);
+		var collidedWith = args[0];
+		for(let i in collidedWith){
+			if(collidedWith[i].id == "wall"){
+				this.vx = 0;
+				this.vy = 0;
+			}
+			
+		}
+	}
+	
 	this.collision = function(){
 		var collisions = [];
 		for(let i=0; i<elements.length; i++){
 			var rect = elements[i];
-			if(rect != this && rect.inGame){
-				if (this.x < rect.x + rect.w && this.x + this.w > rect.x && this.y < rect.y + rect.h && this.y + this.h > rect.y) {
-					//console.log(this.id + " collided with " + rect.id);
+			if(rect != this){
+				if (this.x+this.vx < rect.x + rect.w && this.x+this.vx + this.w > rect.x && this.y+this.vy < rect.y + rect.h && this.y+this.vy + this.h > rect.y) {
+					collisions.push(rect);
+				}
+			}
+		}
+		return collisions;
+	}
+	
+}
+
+var Ogre = function(){
+	var args = Array.prototype.slice.call(arguments);
+	
+	this.id = "ogre";
+	
+	this.lvl = 30;
+	
+	this.x = args[0] || 0;
+	this.y = args[1] || 0;
+	this.speed = args[2] || 1;
+	this.vx = 0;
+	this.vy = 0;
+	
+	this.w = 40;
+	this.h = 52;
+	
+	this.states = {
+		standing: {
+			texture:
+				[
+					1,
+					[[23, 327, 20, 26]],
+					[[55, 327, 20, 26]]
+				]
+		}
+	};
+	this.state = args[3] || this.states.standing;
+	
+	this.update = function(){
+		
+	}
+	
+	this.render = function(){
+		/* Have fun with this one! */
+		var drawing = this.state.texture[this.state.texture[0]];
+		for(let i = 0; i < drawing.length; i++){
+			g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, this.w, this.h);
+		}
+		g.fillStyle = "white";
+		g.fillText(this.lvl, this.x, this.y - 5);
+	}
+	
+	this.nextTexture = function(){
+		if(this.state.texture[0] == this.state.texture.length-1){
+			this.state.texture[0] = 1;
+		}else{
+			this.state.texture[0]++;
+		}
+	}
+	
+	this.handleInteraction  = function(){
+		var args = Array.prototype.slice.call(arguments);
+		var collidedWith = args[0];
+		for(let i in collidedWith){
+			
+		}
+	}
+	
+	this.collision = function(){
+		var collisions = [];
+		for(let i=0; i<elements.length; i++){
+			var rect = elements[i];
+			if(rect != this){
+				if (this.x+this.vx < rect.x + rect.w && this.x+this.vx + this.w > rect.x && this.y+this.vy < rect.y + rect.h && this.y+this.vy + this.h > rect.y) {
+					collisions.push(rect);
+				}
+			}
+		}
+		return collisions;
+	}
+	
+}
+
+var Golem = function(){
+	var args = Array.prototype.slice.call(arguments);
+	
+	this.id = "golem";
+	
+	this.lvl = 15;
+	
+	this.x = args[0] || 0;
+	this.y = args[1] || 0;
+	this.speed = args[2] || 1;
+	this.vx = 0;
+	this.vy = 0;
+	
+	this.w = 36;
+	this.h = 54;
+	
+	this.states = {
+		standing: {
+			texture:
+				[
+					1,
+					[[24, 278, 18, 27]],
+					[[56, 278, 18, 27]]
+				]
+		}
+	};
+	this.state = args[3] || this.states.standing;
+	
+	this.update = function(){
+		
+	}
+	
+	this.render = function(){
+		/* Have fun with this one! */
+		var drawing = this.state.texture[this.state.texture[0]];
+		for(let i = 0; i < drawing.length; i++){
+			g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, this.w, this.h);
+		}
+		g.fillStyle = "white";
+		g.fillText(this.lvl, this.x, this.y - 5);
+	}
+	
+	this.nextTexture = function(){
+		if(this.state.texture[0] == this.state.texture.length-1){
+			this.state.texture[0] = 1;
+		}else{
+			this.state.texture[0]++;
+		}
+	}
+	
+	this.handleInteraction  = function(){
+		var args = Array.prototype.slice.call(arguments);
+		var collidedWith = args[0];
+		for(let i in collidedWith){
+			
+		}
+	}
+	
+	this.collision = function(){
+		var collisions = [];
+		for(let i=0; i<elements.length; i++){
+			var rect = elements[i];
+			if(rect != this){
+				if (this.x+this.vx < rect.x + rect.w && this.x+this.vx + this.w > rect.x && this.y+this.vy < rect.y + rect.h && this.y+this.vy + this.h > rect.y) {
+					collisions.push(rect);
+				}
+			}
+		}
+		return collisions;
+	}
+	
+}
+
+var Demon = function(){
+	var args = Array.prototype.slice.call(arguments);
+	
+	this.id = "demon";
+	
+	this.lvl = 50;
+	
+	this.x = args[0] || 0;
+	this.y = args[1] || 0;
+	this.speed = args[2] || 1;
+	this.vx = 0;
+	this.vy = 0;
+	
+	this.w = 48;
+	this.h = 62;
+	
+	this.states = {
+		standing: {
+			texture:
+				[
+					1,
+					[[21, 370, 24, 31]],
+					[[53, 370, 24, 31]]
+				]
+		}
+	};
+	this.state = args[3] || this.states.standing;
+	
+	this.update = function(){
+		
+	}
+	
+	this.render = function(){
+		/* Have fun with this one! */
+		var drawing = this.state.texture[this.state.texture[0]];
+		for(let i = 0; i < drawing.length; i++){
+			g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, this.w, this.h);
+		}
+		g.fillStyle = "white";
+		g.fillText(this.lvl, this.x, this.y - 5);
+	}
+	
+	this.nextTexture = function(){
+		if(this.state.texture[0] == this.state.texture.length-1){
+			this.state.texture[0] = 1;
+		}else{
+			this.state.texture[0]++;
+		}
+	}
+	
+	this.handleInteraction  = function(){
+		var args = Array.prototype.slice.call(arguments);
+		var collidedWith = args[0];
+		for(let i in collidedWith){
+			
+		}
+	}
+	
+	this.collision = function(){
+		var collisions = [];
+		for(let i=0; i<elements.length; i++){
+			var rect = elements[i];
+			if(rect != this){
+				if (this.x+this.vx < rect.x + rect.w && this.x+this.vx + this.w > rect.x && this.y+this.vy < rect.y + rect.h && this.y+this.vy + this.h > rect.y) {
 					collisions.push(rect);
 				}
 			}
