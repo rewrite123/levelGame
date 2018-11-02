@@ -5,13 +5,12 @@
 	<meta charset="UTF-8"/>
 	<title>Pokemon but for SW</title>
 	<style>
-		canvas {
-			image-rendering: optimizeSpeed;             /* Older versions of FF          */
-			image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
-			image-rendering: -webkit-optimize-contrast; /* Safari                        */
-			image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
-			image-rendering: pixelated;                 /* Awesome future-browsers       */
-			-ms-interpolation-mode: nearest-neighbor;   /* IE                            */
+		canvas{
+			padding-left: 0;
+			padding-right: 0;
+			margin-left: auto;
+			margin-right: auto;
+			display: block;
 		}
 	</style>
 </head>
@@ -19,6 +18,7 @@
 <body>
 	<canvas id="canvas" width="640" height="480"></canvas>
 	<script src="../js/main.js"></script>
+	<script src="../js/levels.js"></script>
 </body>
 
 </html>
