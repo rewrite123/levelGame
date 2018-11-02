@@ -13,7 +13,7 @@ var keys = [];
 var ticks = 0;
 
 const tileSet = new Image();
-tileSet.src = "images/0x72_DungeonTilesetII_v1.1.png";
+tileSet.src = "../images/0x72_DungeonTilesetII_v1.1.png";
 //tileSet.onerror = function(){
 //	tileSet.src = "../images/0x72_DungeonTilesetII_v1.1.png";
 //}
