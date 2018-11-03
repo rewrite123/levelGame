@@ -13,10 +13,18 @@ var keys = [];
 var ticks = 0;
 
 const tileSet = new Image();
-tileSet.src = "images/tileset.png";
-//tileSet.onerror = function(){
-//	tileSet.src = "../images/0x72_DungeonTilesetII_v1.1.png";
-//}
+tileSet.src = "../images/tileset.png";
+const tileSetReverse = new Image();
+tileSetReverse.src = "../images/tilesetReverse.png";
+
+tileSet.onerror = function(){
+	console.log("Don't mind the error. It's supposed to be there.");
+	tileSet.src = "images/tileset.png";
+}
+tileSetReverse.onerror = function(){
+	console.log("Don't mind the error. It's supposed to be there.");
+	tileSetReverse.src = "images/tilesetReverse.png";
+}
 
 function update(){
 	for(let i in elements){
@@ -50,7 +58,9 @@ var Wall = function(){
 	this.vy = 0;
 	
 	this.w = 96;
-	this.h = 40;
+	this.h = 10;
+	
+	this.facing = "left";
 	
 	this.states = {
 		full: {
@@ -71,7 +81,13 @@ var Wall = function(){
 		/* Have fun with this one! */
 		var drawing = this.state.texture[this.state.texture[0]];
 		for(let i = 0; i < drawing.length; i++){
-			g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, this.w, this.h);
+			if(this.facing == "left"){
+				g.drawImage(tileSetReverse, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}else if(this.facing == "right"){
+				g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}else{
+				g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}
 		}
 	}
 	
@@ -113,6 +129,8 @@ var Vertical = function(){
 	this.w = 24;
 	this.h = 72;
 	
+	this.facing = "left";
+	
 	this.states = {
 		full: {
 			texture:
@@ -132,7 +150,13 @@ var Vertical = function(){
 		/* Have fun with this one! */
 		var drawing = this.state.texture[this.state.texture[0]];
 		for(let i = 0; i < drawing.length; i++){
-			g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, this.w, this.h);
+			if(this.facing == "left"){
+				g.drawImage(tileSetReverse, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}else if(this.facing == "right"){
+				g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}else{
+				g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}
 		}
 	}
 	
@@ -173,6 +197,8 @@ var floorTile = function(){
 	
 	this.w = 32;
 	this.h = 32;
+	
+	this.facing = "left";
 	
 	this.states = {
 		full: {
@@ -249,7 +275,13 @@ var floorTile = function(){
 		/* Have fun with this one! */
 		var drawing = this.state.texture[this.state.texture[0]];
 		for(let i = 0; i < drawing.length; i++){
-			g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, this.w, this.h);
+			if(this.facing == "left"){
+				g.drawImage(tileSetReverse, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}else if(this.facing == "right"){
+				g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}else{
+				g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}
 		}
 	}
 	
@@ -293,6 +325,8 @@ var Player = function(){
 	this.w = 32;
 	this.h = 40;
 	
+	this.facing = "left";
+	
 	this.states = {
 		standing: {
 			texture:
@@ -318,10 +352,23 @@ var Player = function(){
 	}
 	
 	this.render = function(){
+		
+		if(this.vx > 0){
+			this.facing = "right";
+		}else if(this.vx < 0){
+			this.facing = "left";
+		}
+		
 		/* Have fun with this one! */
 		var drawing = this.state.texture[this.state.texture[0]];
 		for(let i = 0; i < drawing.length; i++){
-			g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, this.w, this.h);
+			if(this.facing == "left"){
+				g.drawImage(tileSetReverse, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}else if(this.facing == "right"){
+				g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}else{
+				g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}
 		}
 		g.fillStyle = "white";
 		g.fillText(this.lvl, this.x, this.y - 5);
@@ -427,15 +474,17 @@ var Ogre = function(){
 	this.vy = 0;
 	
 	this.w = 40;
-	this.h = 52;
+	this.h = 56;
+	
+	this.facing = "left";
 	
 	this.states = {
 		standing: {
 			texture:
 				[
 					1,
-					[[23, 327, 20, 26]],
-					[[55, 327, 20, 26]]
+					[[23, 324, 20, 28]],
+					[[55, 324, 20, 28]]
 				]
 		}
 	};
@@ -446,10 +495,23 @@ var Ogre = function(){
 	}
 	
 	this.render = function(){
+		
+		if(this.vx > 0){
+			this.facing = "right";
+		}else if(this.vx < 0){
+			this.facing = "left";
+		}
+		
 		/* Have fun with this one! */
 		var drawing = this.state.texture[this.state.texture[0]];
 		for(let i = 0; i < drawing.length; i++){
-			g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, this.w, this.h);
+			if(this.facing == "left"){
+				g.drawImage(tileSetReverse, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}else if(this.facing == "right"){
+				g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}else{
+				g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}
 		}
 		g.fillStyle = "white";
 		g.fillText(this.lvl, this.x, this.y - 5);
@@ -502,6 +564,8 @@ var Golem = function(){
 	this.w = 40;
 	this.h = 54;
 	
+	this.facing = "left";
+	
 	this.states = {
 		standing: {
 			texture:
@@ -519,10 +583,23 @@ var Golem = function(){
 	}
 	
 	this.render = function(){
+		
+		if(this.vx > 0){
+			this.facing = "right";
+		}else if(this.vx < 0){
+			this.facing = "left";
+		}
+		
 		/* Have fun with this one! */
 		var drawing = this.state.texture[this.state.texture[0]];
 		for(let i = 0; i < drawing.length; i++){
-			g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, this.w, this.h);
+			if(this.facing == "left"){
+				g.drawImage(tileSetReverse, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}else if(this.facing == "right"){
+				g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}else{
+				g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}
 		}
 		g.fillStyle = "white";
 		g.fillText(this.lvl, this.x, this.y - 5);
@@ -575,6 +652,8 @@ var Demon = function(){
 	this.w = 48;
 	this.h = 62;
 	
+	this.facing = "left";
+	
 	this.states = {
 		standing: {
 			texture:
@@ -592,10 +671,23 @@ var Demon = function(){
 	}
 	
 	this.render = function(){
+		
+		if(this.vx > 0){
+			this.facing = "right";
+		}else if(this.vx < 0){
+			this.facing = "left";
+		}
+		
 		/* Have fun with this one! */
 		var drawing = this.state.texture[this.state.texture[0]];
 		for(let i = 0; i < drawing.length; i++){
-			g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, this.w, this.h);
+			if(this.facing == "left"){
+				g.drawImage(tileSetReverse, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}else if(this.facing == "right"){
+				g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}else{
+				g.drawImage(tileSet, drawing[i][0], drawing[i][1], drawing[i][2], drawing[i][3], this.x, this.y, drawing[i][2]*2, drawing[i][3]*2);
+			}
 		}
 		g.fillStyle = "white";
 		g.fillText(this.lvl, this.x, this.y - 5);
