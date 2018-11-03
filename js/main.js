@@ -461,12 +461,28 @@ var Player = function(){
 				var rectBL = {x:rect.x, y:rect.y+rect.h};
 				var rectBR = {x:rect.x+rect.w, y:rect.y+rect.h};
 				
+				/* Left and right collision detection. */
 				if( (doLineSegmentsIntersect(topL, topR, rectTL, rectBL) || doLineSegmentsIntersect(botL, botR, rectTL, rectBL)) || (doLineSegmentsIntersect(rectTL, rectTR, topR, botR) || doLineSegmentsIntersect(rectBL, rectBR, topR, botR)) ){
 					/* On the left */
-					console.log("intersecting left " + rect.id);
+					//console.log("intersecting right " + rect.id);
+					this.vx = -Math.abs(this.vx);
 				}
 				if( (doLineSegmentsIntersect(topL, topR, rectTR, rectBR) || doLineSegmentsIntersect(botL, botR, rectTR, rectBR)) || (doLineSegmentsIntersect(rectTL, rectTR, topL, botL) || doLineSegmentsIntersect(rectBL, rectBR, topL, botL)) ){
-					console.log("*intersecting right " + rect.id);
+					/* On the right */
+					//console.log("intersecting left " + rect.id);
+					this.vx = Math.abs(this.vx);
+				}
+				
+				/* Bottom and top collision detection. */
+				if( (doLineSegmentsIntersect(topL, botL, rectTL, rectTR) || doLineSegmentsIntersect(topR, botR, rectTL, rectTR)) || (doLineSegmentsIntersect(rectTL, rectBR, botR, botL) || doLineSegmentsIntersect(rectTL, rectBL, botL, botR)) ){
+					/* On the bottom */
+					//console.log("intersecting bottom " + rect.id);
+					this.vy = (this.vy > 0) ? 0 : -Math.abs(this.vy);
+				}
+				if( (doLineSegmentsIntersect(topL, botL, rectBL, rectBR) || doLineSegmentsIntersect(topR, botR, rectBL, rectBR)) || (doLineSegmentsIntersect(rectTL, rectBR, topR, topL) || doLineSegmentsIntersect(rectTL, rectBL, topL, topR)) ){
+					/* On the top */
+					//console.log("intersecting top " + rect.id);
+					this.vy = (this.vy < 0) ? 0 : Math.abs(this.vy);
 				}
 				
 			}
