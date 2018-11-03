@@ -449,7 +449,7 @@ var Player = function(){
 		var collisions = [];
 		for(let i=0; i<elements.length; i++){
 			var rect = elements[i];
-			if(rect != this || rect.id != "floorTile"){
+			if(rect != this && rect.id != "floorTile"){
 				var thisElement = this;
 				var topL = {x:thisElement.x, y:thisElement.y};
 				var topR = {x:thisElement.x+thisElement.w, y:thisElement.y};
@@ -461,7 +461,13 @@ var Player = function(){
 				var rectBL = {x:rect.x, y:rect.y+rect.h};
 				var rectBR = {x:rect.x+rect.w, y:rect.y+rect.h};
 				
-				doLineSegmentsIntersect();
+				if( (doLineSegmentsIntersect(topL, topR, rectTL, rectBL) || doLineSegmentsIntersect(botL, botR, rectTL, rectBL)) || (doLineSegmentsIntersect(rectTL, rectTR, topR, botR) || doLineSegmentsIntersect(rectBL, rectBR, topR, botR)) ){
+					/* On the left */
+					console.log("intersecting left " + rect.id);
+				}
+				if( (doLineSegmentsIntersect(topL, topR, rectTR, rectBR) || doLineSegmentsIntersect(botL, botR, rectTR, rectBR)) || (doLineSegmentsIntersect(rectTL, rectTR, topL, botL) || doLineSegmentsIntersect(rectBL, rectBR, topL, botL)) ){
+					console.log("*intersecting right " + rect.id);
+				}
 				
 			}
 		}
