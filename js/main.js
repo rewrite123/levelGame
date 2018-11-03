@@ -58,7 +58,7 @@ var Wall = function(){
 	this.vy = 0;
 	
 	this.w = 96;
-	this.h = 10;
+	this.h = 2;
 	
 	this.facing = "left";
 	
@@ -67,7 +67,7 @@ var Wall = function(){
 			texture:
 				[
 					1,
-					[[17, 12, 48, 20]]
+					[[16, 12, 48, 20]]
 				]
 		}
 	};
@@ -449,10 +449,20 @@ var Player = function(){
 		var collisions = [];
 		for(let i=0; i<elements.length; i++){
 			var rect = elements[i];
-			if(rect != this){
-				if (this.x+this.vx < rect.x + rect.w && this.x+this.vx + this.w > rect.x && this.y+this.vy < rect.y + rect.h && this.y+this.vy + this.h > rect.y) {
-					collisions.push(rect);
-				}
+			if(rect != this || rect.id != "floorTile"){
+				var thisElement = this;
+				var topL = {x:thisElement.x, y:thisElement.y};
+				var topR = {x:thisElement.x+thisElement.w, y:thisElement.y};
+				var botL = {x:thisElement.x, y:thisElement.y+thisElement.h};
+				var botR = {x:thisElement.x+thisElement.w, y:thisElement.y+thisElement.h};
+				
+				var rectTL = {x:rect.x, y:rect.y};
+				var rectTR = {x:rect.x+rect.w, y:rect.y};
+				var rectBL = {x:rect.x, y:rect.y+rect.h};
+				var rectBR = {x:rect.x+rect.w, y:rect.y+rect.h};
+				
+				doLineSegmentsIntersect();
+				
 			}
 		}
 		return collisions;
@@ -474,7 +484,7 @@ var Ogre = function(){
 	this.vy = 0;
 	
 	this.w = 40;
-	this.h = 56;
+	this.h = 60;
 	
 	this.facing = "left";
 	
@@ -483,8 +493,8 @@ var Ogre = function(){
 			texture:
 				[
 					1,
-					[[23, 324, 20, 28]],
-					[[55, 324, 20, 28]]
+					[[22, 322, 20, 30]],
+					[[54, 322, 20, 30]]
 				]
 		}
 	};

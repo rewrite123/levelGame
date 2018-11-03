@@ -27,12 +27,12 @@ var TestLevel = function(){
 			}
 		}
 		
-		for(let i = 0; i < canvas.width/96; i++){
-			var temp = new Wall(96*i, 0);
+		for(let i = 0; i < canvas.width/96+1; i++){
+			var temp = new Wall(96*i - i, 0);
 			el.push(temp);
 		}
-		for(let i = 0; i < canvas.width/96; i++){
-			var temp = new Wall(96*i, canvas.height-32-8);
+		for(let i = 0; i < canvas.width/96+1; i++){
+			var temp = new Wall(96*i - i, canvas.height-32-8);
 			el.push(temp);
 		}
 		
