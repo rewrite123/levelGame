@@ -47,8 +47,8 @@ var TestLevel = function(){
 		}
 		el.push(new Vertical(canvas.width-18, canvas.height-70));
 		
-		el.push(new Golem(400, 100));
-		el.push(new Ogre(400, 200));
+		el.push(new Golem(200, 100));
+		el.push(new Ogre(300, 200));
 		el.push(new Demon(400, 300));
 		
 		el.push(new Player(100, 100));

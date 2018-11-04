@@ -342,12 +342,12 @@ var Player = function(){
 	this.update = function(){
 		this.handleKeys();
 		
-		this.handleInteraction(this.collision());
-		
 		this.x += this.vx;
 		this.y += this.vy;
 		this.vy = this.vy*0.9;
 		this.vx = this.vx*0.9;
+		
+		this.handleInteraction(this.collision());
 		
 	}
 	
@@ -461,28 +461,45 @@ var Player = function(){
 				var rectBL = {x:rect.x, y:rect.y+rect.h};
 				var rectBR = {x:rect.x+rect.w, y:rect.y+rect.h};
 				
-				/* Left and right collision detection. */
+				var left = false;
+				var right = false;
+				var top = false;
+				var bottom = false;
+				
+				/* Collision detection. */
 				if( (doLineSegmentsIntersect(topL, topR, rectTL, rectBL) || doLineSegmentsIntersect(botL, botR, rectTL, rectBL)) || (doLineSegmentsIntersect(rectTL, rectTR, topR, botR) || doLineSegmentsIntersect(rectBL, rectBR, topR, botR)) ){
-					/* On the left */
-					//console.log("intersecting right " + rect.id);
-					this.vx = -Math.abs(this.vx);
+					/* On the right */
+					console.log("right");
+					right = true;
 				}
 				if( (doLineSegmentsIntersect(topL, topR, rectTR, rectBR) || doLineSegmentsIntersect(botL, botR, rectTR, rectBR)) || (doLineSegmentsIntersect(rectTL, rectTR, topL, botL) || doLineSegmentsIntersect(rectBL, rectBR, topL, botL)) ){
-					/* On the right */
-					//console.log("intersecting left " + rect.id);
-					this.vx = Math.abs(this.vx);
+					/* On the left */
+					console.log("left");
+					left = true;
 				}
-				
-				/* Bottom and top collision detection. */
 				if( (doLineSegmentsIntersect(topL, botL, rectTL, rectTR) || doLineSegmentsIntersect(topR, botR, rectTL, rectTR)) || (doLineSegmentsIntersect(rectTL, rectBR, botR, botL) || doLineSegmentsIntersect(rectTL, rectBL, botL, botR)) ){
 					/* On the bottom */
-					//console.log("intersecting bottom " + rect.id);
-					this.vy = (this.vy > 0) ? 0 : -Math.abs(this.vy);
+					console.log("bottom");
+					bottom = true;
 				}
 				if( (doLineSegmentsIntersect(topL, botL, rectBL, rectBR) || doLineSegmentsIntersect(topR, botR, rectBL, rectBR)) || (doLineSegmentsIntersect(rectTL, rectBR, topR, topL) || doLineSegmentsIntersect(rectTL, rectBL, topL, topR)) ){
-					/* On the top */
-					//console.log("intersecting top " + rect.id);
-					this.vy = (this.vy < 0) ? 0 : Math.abs(this.vy);
+					/*	On the top */
+					console.log("top");
+					top = true;
+				}
+				
+				if(right && !left){
+					this.vx = -Math.abs(this.vx);
+				}else if(!right && left){
+					this.vx = Math.abs(this.vx);
+				}else{
+					if(top && !bottom){
+						this.vy = Math.abs(this.vy);
+					}else if(!top && bottom){
+						this.vy = -Math.abs(this.vy);
+					}else if(top && bottom){
+						this.vy = 0;
+					}
 				}
 				
 			}
