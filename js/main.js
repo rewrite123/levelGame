@@ -501,6 +501,9 @@ var Player = function(){
 						this.vy = 0;
 					}
 				}
+				if(right || left || top || bottom){
+					collisions.push(rect);
+				}
 				
 			}
 		}
