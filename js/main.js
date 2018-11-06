@@ -344,10 +344,10 @@ var Player = function(){
 		
 		this.x += this.vx;
 		this.y += this.vy;
+		this.handleInteraction(this.collision());
 		this.vy = this.vy*0.9;
 		this.vx = this.vx*0.9;
 		
-		this.handleInteraction(this.collision());
 		
 	}
 	
@@ -488,19 +488,14 @@ var Player = function(){
 					top = true;
 				}
 				
-				if(right && !left){
-					this.vx = -Math.abs(this.vx);
-				}else if(!right && left){
-					this.vx = Math.abs(this.vx);
-				}else{
-					if(top && !bottom){
-						this.vy = Math.abs(this.vy);
-					}else if(!top && bottom){
-						this.vy = -Math.abs(this.vy);
-					}else if(top && bottom){
-						this.vy = 0;
-					}
+				if(right || left){
+					this.x -= this.vx;
 				}
+				
+				if(top || bottom){
+					this.y -= this.vy;
+				}
+				
 				if(right || left || top || bottom){
 					collisions.push(rect);
 				}
